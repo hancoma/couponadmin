@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "665522737095",
+    "firebase_url": "https://couponadmin-144711.firebaseio.com",
+    "project_id": "couponadmin-144711",
+    "storage_bucket": "couponadmin-144711.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665522737095:android:14d56f816b8f4ec8",
+        "android_client_info": {
+          "package_name": "com.rentplayadmin.hancoma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "665522737095-b0t2c08cq401prrg4l81tmfgf0c33874.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC08B-XJ_1uPZrhJOU_5EcrjOH1Acrvb1o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
