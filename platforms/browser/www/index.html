@@ -50,11 +50,14 @@
 <body>
     <div class="app">
         <h1>렌트플레이가맹점</h1>
+        <div class="uk-button" onclick="call_list();">콜 기록 보기</div>
         <div id="deviceready" class="blink">
             <p class="event listening">연결 중이니다.</p>
             <p class="event received">콜을 받을 준비가 되었습니다.</p>
+          
         </div>
     </div>
+
     <div id="call_modal" class="uk-modal" aria-hidden="true" style="display: none; overflow-y: scroll;">
                                 <div class="uk-modal-dialog">
                                     <button type="button" class="uk-modal-close uk-close"></button>
@@ -85,55 +88,14 @@
                             </div>
     
 
+
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" charset="utf-8" src="telephonenumber.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript">
         app.initialize();
 
-  PushNotification.hasPermission(function(data) {
-    if (data.isEnabled) {
-        console.log('isEnabled');
-    }
-});
-
-
-   var push = PushNotification.init({
-    android: {
-        senderID: "665522737095"
-    },
-    browser: {
-        pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-    },
-    ios: {
-        alert: "true",
-        badge: "true",
-        sound: "true"
-    },
-    windows: {}
-});
-
-push.on('registration', function(data) {
-    // data.registrationId
   
-    console.log("id"+data.registrationId);
-    json_call(data.registrationId);
-});
-
-push.on('notification', function(data) {
-    console.log(data.message);
- 
-    console.log(data.event);
-    
-    display_call(data.message);
-    
-   
-});
-
-push.on('error', function(e) {
-    // e.message
-    alert(e.message);
-});
 
     </script>
 </body>

@@ -271,7 +271,26 @@ function json_call(reg_id) {
 
   var uuid=device.uuid;
 
-  
+  // 콜목록 보기 
+  function call_list() {
+
+      var uuid=device.uuid;
+    
+   
+    var modal = UIkit.modal("#call_modal");
+
+    modal.show();
+
+     $.post("http://pataling.cafe24.com/app_test/call_list.php",
+   {
+    uuid:uuid,
+    no:no
+      },
+   function(data){
+       $("#call_contents").html(data);
+      }
+      );
+  }
 
 
 // msg 

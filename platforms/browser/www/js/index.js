@@ -50,9 +50,59 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
-        check_join();
+
+        
+         app.onmain();
         //check_call();
          
+    },
+    onmain: function() {
+       check_join();
+       var reg_id=device.uuid;
+       // 기기 번호 검출 
+          console.log('Received Event: ' + reg_id);
+
+          push = PushNotification.init({
+    android: {
+        senderID: "665522737095"
+    },
+    browser: {
+        pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+    },
+    ios: {
+        alert: "true",
+        badge: "true",
+        sound: "true"
+    },
+    windows: {}
+});
+          PushNotification.hasPermission(function(data) {
+    if (data.isEnabled) {
+        console.log('isEnabled');
+    }
+});
+
+
+push.on('registration', function(data) {
+    console.log(data.registrationId);
+    json_call(data.registrationId);
+});
+
+push.on('notification', function(data) {
+ 
+  alert_msg("알람",data.message);
+  
+    display_call(data.message);
+    
+   
+});
+
+push.on('error', function(e) {
+    // e.message
+   alert_msg("경고",e.message);
+});
+
+
     }
 };
 
@@ -65,7 +115,8 @@ var app = {
    function(data){
      
         if (data=="no") {
-       UIkit.modal.alert("회원 가입 정보가 없습니다. 회원가입해 주세요.");
+          alert_msg("경고","회원 가입 정보가 없습니다. 회원가입해 주세요.");
+      
        display_join();
      } else {
        display_call();
@@ -84,13 +135,33 @@ var app = {
       },
    function(data){
      
-
-       UIkit.modal.alert("콜 정보가 있습니다.");
+      alert_msg("알림","콜 정보가 있습니다.");
+      
        display_call();
 
 
       }
       );
+  }
+
+  function zzim_call(no) {
+      var no=no;
+      var uuid=device.uuid;
+     $.post("http://pataling.cafe24.com/app_test/zzim_call.php",
+   {
+    uuid:uuid,
+    no:no
+      },
+   function(data){
+     
+        alert_msg("알림","접수했습니다.");
+     
+   
+
+      }
+      );
+
+
   }
   function display_call(message) {
     var uuid=device.uuid;
@@ -101,11 +172,7 @@ var app = {
     console.log(no);
     var modal = UIkit.modal("#call_modal");
 
-if ( modal.isActive() ) {
-    modal.hide();
-} else {
     modal.show();
-}
 
      $.post("http://pataling.cafe24.com/app_test/call_info.php",
    {
@@ -139,6 +206,20 @@ if ( modal.isActive() ) {
      
   }
 
+  function login_check() {
+    var email=$("#email").val();
+    var passwd=$("#passwd").val();
+    if (!email) {
+      alert_msg("경고","아이디를 입력하세요.");
+      exit;
+    }
+    if (!passwd) {
+      alert_msg("경고","비밀번호를 입력하세요.");
+      exit;
+    }
+    check_id(email,passwd);
+  }
+
 function check_id(email,passwd) {
   var email=email;
   var passwd=passwd;
@@ -152,8 +233,9 @@ function check_id(email,passwd) {
                function(data){
                   var data=data;
                if (data=="yes"){
+                  alert_msg("알림","정상적으로 등록되어습니다.");
+
                   
-                  UIkit.modal.alert("정상적으로 등록되었습니다.");
         var modal = UIkit.modal("#join_modal");
 
 if ( modal.isActive() ) {
@@ -162,7 +244,8 @@ if ( modal.isActive() ) {
     modal.show();
 }
                 } else {
-                  UIkit.modal.alert("아이디와 비밀번호가 맞지 않습니다. 고객센터 문의 바랍니다.");             
+                  alert_msg("경고","아이디와 비밀번호가 맞지 않습니다. 고객센터 문의 바랍니다.");
+                            
                   exit;
                 }
               });
@@ -188,9 +271,42 @@ function json_call(reg_id) {
 
   var uuid=device.uuid;
 
-  
+  // 콜목록 보기 
+  function call_list() {
+
+      var uuid=device.uuid;
+    
+   
+    var modal = UIkit.modal("#call_modal");
+
+    modal.show();
+
+     $.post("http://pataling.cafe24.com/app_test/call_list.php",
+   {
+    uuid:uuid,
+    no:no
+      },
+   function(data){
+       $("#call_contents").html(data);
+      }
+      );
+  }
 
 
+// msg 
+function alertDismissed() {
+    // do something
+}
 
+function alert_msg(title,msg) {
+    var title=title;
+    var msg=msg;
+   navigator.notification.alert(
+    msg,  // message
+    alertDismissed,         // callback
+    title,            // title
+    '확인'                  // buttonName
+);
+}
 
  
