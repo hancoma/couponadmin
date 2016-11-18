@@ -280,16 +280,17 @@ function json_call(reg_id) {
     var modal = UIkit.modal("#call_modal");
 
     modal.show();
-
-     $.post("http://pataling.cafe24.com/app_test/call_list.php",
+    console.log("uuid = "+uuid);
+     $.post("http://pataling.cafe24.com/app_test/call_list_shop.php",
+    
    {
-    uuid:uuid,
-    no:no
+    uuid:uuid
       },
    function(data){
+ 
        $("#call_contents").html(data);
       }
-      );
+      ); 
   }
 
 
